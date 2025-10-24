@@ -1,28 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clock</title>
-
+    <title>Digitální hodiny</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <svg id="ikona-nastaveni" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white">
-        <path d="M3 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z"/>
+    <svg id="ikona-nastaveni" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+        fill="white">
+        <path d="M3 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z" />
     </svg>
 
+    <h1><span id="hodiny">00:00:00</span></h1>
+    <p id="datum">Loading...</p>
 
-    <h1><span id="hodiny"></span></h1>
-    <p id="datum"></p>
+    <div class="sidebar">
+        <h2>Nastavení</h2>
+        <label for="posun">Posun v minutách:</label>
+        <input type="number" id="posun" value="0">
+        <button id="ulozit">Uložit</button>
+    </div>
 
-    <div class="overlay"></div>
+    <div id="alert"></div>
 
-
+    <script src="script.js"></script>
 </body>
-
-<script src="script.js">
-</script>
 
 </html>

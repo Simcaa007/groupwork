@@ -1,73 +1,55 @@
-function hodiny(){
-    const datum = new Date();
-    const h = datum.getHours().toString().padStart(2, '0');
-    const m = datum.getMinutes().toString().padStart(2, '0');
-    const s = datum.getSeconds().toString().padStart(2, '0');
+function hodiny() {
+    const datumObj = new Date();
+    const posun = parseInt(localStorage.getItem("posun")) || 0;
+    datumObj.setMinutes(datumObj.getMinutes() + posun);
 
-    document.getElementById("hodiny").innerHTML =  h  + ":" + m + ":" + s ;
+    const h = datumObj.getHours().toString().padStart(2, '0');
+    const m = datumObj.getMinutes().toString().padStart(2, '0');
+    const s = datumObj.getSeconds().toString().padStart(2, '0');
+
+    document.getElementById("hodiny").innerHTML = `${h}:${m}:${s}`;
 }
 
 hodiny();
 setInterval(hodiny, 1000);
-
-
-function datum(){
-    const datum = new Date();
-    const d = datum.getDay();
-
-    var denCisla = datum.getDate();
-    var mesic = datum.getMonth() + 1;
-    var rok = datum.getFullYear();
-
-    var textDne = "";
-    var textMesice = "";
-
-    switch(d){
-        case 1: textDne = "Pondělí"; break;
-        case 2: textDne = "Úterý"; break;
-        case 3: textDne = "Středa"; break;
-        case 4: textDne = "Čtvrtek"; break;
-        case 5: textDne = "Pátek"; break;
-        case 6: textDne = "Sobota"; break;
-        case 7: textDne = "Neděle"; break;
-    }
-
-    switch (mesic){
-        case 1: textMesice = "ledna"; break;
-        case 2: textMesice = "února"; break;
-        case 3: textMesice = "března"; break;
-        case 4: textMesice = "dubna"; break;
-        case 5: textMesice = "května"; break;
-        case 6: textMesice = "června"; break;
-        case 7: textMesice = "července"; break;
-        case 8: textMesice = "srpna"; break;
-        case 9: textMesice = "zaří"; break;
-        case 10: textMesice = "října"; break;
-        case 11: textMesice = "listopadu"; break;
-        case 12: textMesice = "prosince"; break;
-
-    }
-
-
-    document.getElementById("datum").innerHTML = textDne + " " + denCisla + ". " + textMesice + " " + rok;
+function datum() {
+    const datumObj = new Date();
+    const dny = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    const mesice = ["ledna", "února", "března", "dubna", "května", "června", "července", "srpna", "září", "října", "listopadu", "prosince"];
+    const denCisla = datumObj.getDate();
+    const mesic = datumObj.getMonth();
+    const rok = datumObj.getFullYear();
+    document.getElementById("datum").textContent = `${dny[datumObj.getDay()]} ${denCisla}. ${mesice[mesic]} ${rok}`;
 }
 
 datum();
+setInterval(datum, 60000);
 
+const ikona = document.getElementById("ikona-nastaveni");
+const sidebar = document.querySelector(".sidebar");
+const ulozitBtn = document.getElementById("ulozit");
+const posunInput = document.getElementById("posun");
 
-window.addEventListener("load", () => {
-      const overlay = document.querySelector(".overlay");
-      overlay.style.opacity = "0";
-
-      // Odstranění překryvu po dokončení přechodu
-      setTimeout(() => {
-        overlay.remove();
-      }, 2000);
+ikona.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
 });
 
 
-document.getElementById("ikona-nastaveni").addEventListener("click", () => {
-    
-    
-
+ulozitBtn.addEventListener("click", () => {
+    const posun = parseInt(posunInput.value) || 0;
+    localStorage.setItem("posun", posun);
+    zobrazAlert(`Nastavení uloženo: ${posun >= 0 ? '+' : ''}${posun} min`);
 });
+
+
+const alertEl = document.getElementById("alert");
+
+function zobrazAlert(text) {
+    alertEl.textContent = text;
+    alertEl.style.display = "block";
+    alertEl.style.opacity = "1";
+    setTimeout(() => {
+        alertEl.style.opacity = "0";
+        setTimeout(() => alertEl.style.display = "none", 500);
+    }, 2500);
+}
